@@ -12,4 +12,4 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Hello ${{github.event.repo.name}}"
+    - run: echo "Hello ${{github.event.inputs.repo}}"
