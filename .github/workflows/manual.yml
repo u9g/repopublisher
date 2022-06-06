@@ -6,7 +6,6 @@ on:
       repo:
         required: true
       branch:
-        default: 'main'
 
 jobs:
   greet:
