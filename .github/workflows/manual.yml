@@ -12,4 +12,11 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Hello ${{github.event.inputs.repo}}"
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3.2.0
+    - name: Clone Repo
+      run: |
+        git clone https://github.com/${{github.event.inputs.repo}} code
+        cd code
+        wget https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/fixgradle.js && node fixgradle.js ${{ secrets.MAVEN_USERNAME }} ${{ secrets.MAVEN_PASSWORD }}
+        ./gradlew publish
