@@ -1,0 +1,15 @@
+name: Build Repo
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        required: true
+      branch:
+        default: 'main'
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Hello ${{github.event.repo.name}}"
