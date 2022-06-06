@@ -16,3 +16,8 @@ jobs:
       uses: actions/setup-node@v3.2.0
     - name: Build & Publish
       run: bash <(curl -s https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/downloader.sh)
+      env:
+        REPO: ${{github.event.inputs.repo}}
+        BRANCH: ${{github.event.inputs.branch}}
+        MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
