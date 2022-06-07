@@ -1,5 +1,6 @@
 git clone https://github.com/$REPO code
 cd code
+git switch -f $BRANCH
 if [[ $REPO == *yarn ]]
 then
   wget https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/fixgradle.js
@@ -8,7 +9,6 @@ then
     python ./yarn.py $ver publish
   done
 else
-  git switch -f $BRANCH
   wget https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/fixgradle.js
   node fixgradle.js $MAVEN_USERNAME $MAVEN_PASSWORD
   ./gradlew publish
