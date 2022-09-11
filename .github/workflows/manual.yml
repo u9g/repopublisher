@@ -9,7 +9,10 @@ on:
 
 jobs:
   greet:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    container:
+      image: openjdk:15-jdk
+      options: --user root
     steps:
     - name: Setup Node.js environment
       uses: actions/setup-node@v3.2.0
@@ -17,10 +20,10 @@ jobs:
       with:
         python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64'
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '17'
+#     - uses: actions/setup-java@v2
+#       with:
+#         distribution: 'temurin' # See 'Supported distributions' for available options
+#         java-version: '17'
     - name: Build & Publish
       run: bash <(curl -s https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/downloader.sh)
       env:
