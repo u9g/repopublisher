@@ -25,7 +25,7 @@ jobs:
 #         distribution: 'temurin' # See 'Supported distributions' for available options
 #         java-version: '17'
     - name: Build & Publish
-      run: bash <(curl -s https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/downloader.sh)
+      run: bash <(curl -s https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/downloader.sh)>
       env:
         REPO: ${{github.event.inputs.repo}}
         BRANCH: ${{github.event.inputs.branch}}
