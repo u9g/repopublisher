@@ -20,7 +20,7 @@ jobs:
     - uses: actions/setup-java@v2
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '17'
+        java-version: '15'
     - name: Build & Publish
       run: bash <(curl -s https://raw.githubusercontent.com/u9g/repopublisher/main/.github/workflows/downloader.sh)
       env:
