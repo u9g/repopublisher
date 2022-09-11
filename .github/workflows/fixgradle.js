@@ -1,16 +1,16 @@
 const FILE_NAME = 'build.gradle'
-const [,,USERNAME,PASSWORD] = require('process').argv
+const [, , USERNAME, PASSWORD] = require('process').argv
 const txt = require('fs').readFileSync(FILE_NAME, 'utf-8')
 
 function findBlockBetween(startIx, endIx, wantedText, onlyUseTopLevelMatches = true) {
     let sofar = ''
     let doneLookingForWantedText = false
     let waitingForFirstCurly = false
-    let startReplaceIndex = 0
-    let endReplaceIndex = 0
+    let startReplaceIndex = -1
+    let endReplaceIndex = -1
     let curlies = 0
     let lookingForBalencedCurlies = false
-    
+
     let curlyNestingLevel = 0
     let ix = 0
     for (const text of txt) {
@@ -31,7 +31,7 @@ function findBlockBetween(startIx, endIx, wantedText, onlyUseTopLevelMatches = t
             curlies++
             waitingForFirstCurly = false
             lookingForBalencedCurlies = true
-            startReplaceIndex = ix-1
+            startReplaceIndex = ix - 1
         } else if (lookingForBalencedCurlies) {
             if (text === '{') curlies++
             if (text === '}') curlies--
@@ -61,13 +61,14 @@ const REPOSITORIES = 'repositories'
 let output = ''
 // add our repo to the repositories block
 const [reposStart] = findBlockBetween(0, txt.length, REPOSITORIES)
-output += txt.substring(0, reposStart)
-output += newRepositoryBlock.substring(0,newRepositoryBlock.length-1)
-const reposEnd = reposStart+1
+let didntFindMatch = reposStart === -1
+output += txt.substring(0, didntFindMatch ? 0 : reposStart)
+output += didntFindMatch ? '' : newRepositoryBlock.substring(0, newRepositoryBlock.length - 1)
+const reposEnd = reposStart + 1
 // remake publishing block
 const publishingBlock = findBlockBetween(0, txt.length, 'publishing')
-let startOfPublicationRepositories = publishingBlock[1]-1
-let endOfPublicationRepositories = publishingBlock[1]-1
+let startOfPublicationRepositories = publishingBlock[1] - 1
+let endOfPublicationRepositories = publishingBlock[1] - 1
 if (txt.substring(...publishingBlock).includes(REPOSITORIES)) { // there is a publishing block, we will have to overwrite it...
     const [start, end] = findBlockBetween(...publishingBlock, REPOSITORIES, false)
     startOfPublicationRepositories = start - `${REPOSITORIES} `.length
